@@ -1,0 +1,33 @@
+body{
+    background-color: #f4f4f4;
+    font-size: 16px;
+}
+.login{
+    width:300px;
+    margin: 300px auto;
+}
+.login input{
+    margin-bottom: 10px;
+}
+.login .form-control{
+    background-color: #efeded;
+}
+/* start bootstrap desgin */
+.navbar{
+    border-radius: 0px;
+    margin-bottom: 0px;
+}
+.navbar-brand{
+    font-size: 1em;
+}
+.navbar-inverse .navbar-nav>.open>a,
+.navbar-inverse .navbar-nav>.open>a:focus,
+.navbar-inverse .navbar-nav>.open>a:hover,
+.dropdown-menu
+{
+    background-color: #3498db;
+}
+.dropdown-menu > li > a{
+    color: #fff;
+}
+/* End bootstrap desgin */
