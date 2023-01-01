@@ -9,7 +9,7 @@ if(isset($_SESSION['Username']))
     {
         //Manage page
     }elseif($do=='Edit'){
-        echo 'Edit Page Memebers'.$_GET['ID'].$_SESSION['Username'];
+        echo 'Edit Page Memebers'.$_GET['ID'];
     }
 
     include $tpl."footer.php";
