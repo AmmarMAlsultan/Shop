@@ -4,7 +4,7 @@
 
     $tpl    ='includ/template/';
     $lng    ="includ/lang/";
-    $fun    = "includ/function/";
+    $fun    ="includ/function/";
     $css    ='thames/css/';
     $js     ='thames/js/';
     $nav    ="includ/template/";
