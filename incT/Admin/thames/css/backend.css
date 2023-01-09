@@ -12,6 +12,13 @@ body{
 .login .form-control{
     background-color: #efeded;
 }
+.asterisk{
+    font-size: 25px;
+    position: absolute;
+    right: 30px;
+    top: 8px;
+    color: #D20707;
+}
 /* start bootstrap desgin */
 .navbar{
     border-radius: 0px;
@@ -38,7 +45,9 @@ h1{
     font-weight: bold;
     color: #666;
 }
-
+.form-control{
+    position: relative;
+}
 /* End page memeber */
 
 

@@ -26,26 +26,26 @@ if(isset($_SESSION['Username']))
         <input type="hidden" name="userid" value="<?php echo $userid ?>"/>
         <div class="form-group">
             <label class="col-sm-2 control-label">Usern Name</label>
-            <div class="col-sm-10 col-md-4">
+            <div class="col-sm-10 col-md-5">
                 <input type="text" name="username" value="<?php echo $row['Username'] ?>" class="form-control" autocomplete="off" required="required" />
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Password</label>
-            <div class="col-sm-10 col-md-4">
-                <input type="hidden" name="oldpassword" value="<?php echo $row['Passworduser'] ?>" />
-                <input type="password" name="newpassword" class="form-control" autocomplete="new-password" />
+            <div class="col-sm-10 col-md-5">
+                <input type="hidden" name="oldpassword"  value="<?php echo $row['Passworduser'] ?>" />
+                <input type="password" name="newpassword" class="form-control" autocomplete="new-password" placeholder="Leave Blank If You Dont Want To Change" />
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Email</label>
-            <div class="col-sm-10 col-md-4">
+            <div class="col-sm-10 col-md-5">
                 <input type="email" name="email" value="<?php echo $row['Email'] ?>" class="form-control" required="required"/>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">Full Name</label>
-            <div class="col-sm-10 col-md-4">
+            <div class="col-sm-10 col-md-5">
                 <input type="text" name="fullname" value="<?php echo $row['FulName'] ?>" class="form-control" required="required"/>
             </div>
         </div>
