@@ -48,6 +48,9 @@ h1{
 .form-control{
     position: relative;
 }
+.main-table{
+    box-shadow: 0 3px 10px #333;
+}
 .main-table tr:first-child td{
     background-color: #333;
     color: #fff;
