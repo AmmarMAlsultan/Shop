@@ -17,7 +17,7 @@ if(isset($_SESSION['Username']))
      <h1 class="text-center">Manage Memebers</h1>
     <div class="container">
         <div class="table-responsive text-center">
-            <table class="main-table table table-bordered">
+            <table class="main-table table table-bordered  table-striped">
                 <tr>
                     <td>#ID</td>
                     <td>UserName</td>
@@ -245,7 +245,10 @@ if(isset($_SESSION['Username']))
 
  echo '</div>';
 }
-elseif($do='Delete'){
+elseif($do='Delete'){?>
+    <h1 class="text-center">Delete Memebers</h1>
+    <div class="container text-center">
+    <?php
     $userid = isset($_GET['ID']) && is_numeric($_GET['ID']) ? intval($_GET['ID']) : 0;
     $stat = $con->prepare("SELECT * FROM users WHERE UserID=? LIMIT 1");
     $stat->execute(array($userid));
@@ -257,6 +260,10 @@ elseif($do='Delete'){
             $stst->execute();
             echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Deleted".'</div>';
         }
+        else{
+                echo "Member Not Found ";
+        }
+            echo '</div>';
 }
 
 
