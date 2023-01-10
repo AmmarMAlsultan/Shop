@@ -8,11 +8,151 @@ if(isset($_SESSION['Username']))
     $do = isset($_GET['do']) ? $_GET['do'] : 'Manage';
     if($do=='Manage')
     {
-        //Manage page
-    }elseif($do=='Edit'){
+
+        $stat = $con->prepare("SELECT * FROM users WHERE GroupID != 1 ");
+        $stat->execute();
+        $rows = $stat->fetchAll();
+
+        ?>
+     <h1 class="text-center">Manage Memebers</h1>
+    <div class="container">
+        <div class="table-responsive text-center">
+            <table class="main-table table table-bordered">
+                <tr>
+                    <td>#ID</td>
+                    <td>UserName</td>
+                    <td>Email</td>
+                    <td>FullName</td>
+                    <td>Registerd Data</td>
+                    <td>Control</td>
+                </tr>
+                <?php
+                    foreach($rows as $row)
+                    {
+                    echo '<tr>';
+                    echo '<td>'.$row['UserID'].'</td>';
+                    echo '<td>'.$row['Username'].'</td>';
+                    echo '<td>'.$row['Email'].'</td>';
+                    echo '<td>'.$row['FulName'].'</td>';
+                    echo '<td></td>';
+                    echo '<td>
+                    <a href="memebers.php?do=Edit&ID='.$row['UserID'].'"class="btn btn-success">Edit</a>
+                    <a href="memebers.php?do=Delete&ID='.$row['UserID'].'" class="btn btn-danger confirm">Delete</a>
+                    </td>';
+                    echo '</tr>';
+                    }
+                ?>
+            </table>
+        </div>
+        <a href="memebers.php?do=Add" class="btn btn-primary"><i class="fa fa-plus"></i> Add Member</a>
+    </div>
+    <?php }
+
+    elseif($do=='Add')
+    { ?>
+        <h1 class="text-center">Add New Memebers</h1>
+<div class="container text-center">
+    <form class="form-horizontal text-center" action="?do=insert" method="POST">
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Usern Name</label>
+            <div class="col-sm-10 col-md-4">
+                <input type="text" name="username" class="form-control" autocomplete="off" placeholder="Enter UserName" required="required" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Password</label>
+            <div class="col-sm-10 col-md-4">
+                <input type="password" name="password" class="form-control" autocomplete="new-password" placeholder="Enter Your Password" required="required" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Email</label>
+            <div class="col-sm-10 col-md-4">
+                <input type="email" name="email"  class="form-control" placeholder="Enter Your Email" required="required"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-4 control-label">Full Name</label>
+            <div class="col-sm-10 col-md-4">
+                <input type="text" name="fullname" placeholder="Enter FullName" class="form-control" required="required"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-4 col-md-1">
+                <button type="submit" value="Save" class="btn btn-primary">Add Member</button>
+            </div>
+        </div>
+    </form>
+</div>
+    <?php }
+    elseif($do=='insert')
+    {
+        
+     
+      if($_SERVER['REQUEST_METHOD']=='POST')
+       { ?>
+                <h1 class="text-center">Insert Memebers</h1>
+                <div class="container">
+            <?php
+                    $username    = $_POST['username'];
+                    $pass        = $_POST['password'];
+                    $email       = $_POST['email'];
+                    $fullname    = $_POST['fullname'];
+                    
+                    $hashpass    = sha1($_POST['password']);
+
+                    $erorrinput  = array();
+    
+                    if(strlen($username)<3)
+                     {
+                        $erorrinput[] = "UserName Can Be Liss Than <strong>4 Charcter</strong>";
+                     }  
+                     if(empty($username))
+                     {
+                        $erorrinput[] = "UserName Can Be <strong>Empty</strong>";
+                     }
+                     if(empty($pass))
+                     {
+                        $erorrinput[] = "Password Can Be <strong>Empty</strong>";
+                     }
+                     if(empty($email))
+                     {
+                        $erorrinput[] = "Email Can Be <strong>Empty</strong>";
+                     }
+                     if(empty($fullname))
+                     {
+                        $erorrinput[] = "FullName Can Be <strong>Empty</strong>";
+                     }
+                     foreach($erorrinput as $erorr)
+                           echo "<div class='alert alert-danger'>".$erorr."</div>";
+                      
+                    if(empty($erorrinputr)){
+
+                        $stat = $con->prepare("INSERT INTO users(Username,Passworduser,Email,FulName)VALUE(:auser,:apass,:aemail,:afullname)");
+                        $stat->execute(
+                            array(
+                                'auser'      => $username,
+                                'apass'      => $hashpass,
+                                'aemail'     => $email,
+                                'afullname'  => $fullname
+                            )
+                        );
+
+                        echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Iserted".'</div>';
+                     } 
+                    
+      }
+      else{
+            echo 'Erorr';
+      }
+    
+     echo '</div>';
+    
+    }
 
 
-
+    elseif($do=='Edit'){
         $userid = isset($_GET['ID']) && is_numeric($_GET['ID']) ? intval($_GET['ID']) : 0;
         $stat = $con->prepare("SELECT * FROM users WHERE UserID=? LIMIT 1");
         $stat->execute(array($userid));
@@ -52,7 +192,7 @@ if(isset($_SESSION['Username']))
 
         <div class="form-group">
             <div class="col-sm-offset-4 col-md-1">
-                <button type="submit" value="Save" class="form-control btn btn-primary">Save</button>
+                <button type="submit" value="Save" class="btn btn-primary">Save Edit</button>
             </div>
         </div>
     </form>
@@ -61,7 +201,7 @@ if(isset($_SESSION['Username']))
  }
  elseif($do=="update")
  {?>
-    <h1 class="text-center">Edit Memebers</h1>
+    <h1 class="text-center">Update Memebers</h1>
     <div class="container">
  <?php
   if($_SERVER['REQUEST_METHOD']=='POST')
@@ -70,33 +210,33 @@ if(isset($_SESSION['Username']))
                    $username    = $_POST['username'];
                    $email       = $_POST['email'];
                    $fullname    = $_POST['fullname'];
-                   $pass =empty($_POST['newpassword'])?$_POST['oldpassword']:sha1($_POST['newpassword']);
-                   $erorrinput = array();
+                   $pass        = empty($_POST['newpassword'])?$_POST['oldpassword']:sha1($_POST['newpassword']);
+                   $erorrinput  = array();
 
-                if(strlen($username)<3)
-                 {
-                    $erorrinput[] = "<div class='alert alert-danger'> UserName Can Be Liss Than <strong>4 Charcter</strong></div>";
-                 }  
-                 if(empty($username))
-                 {
-                    $erorrinput[] = "<div class='alert alert-danger'>UserName Can Be <strong>Empty</strong></div>";
-                 }
-                 if(empty($email))
-                 {
-                    $erorrinput[] = "<div class='alert alert-danger'>Email Can Be <strong>Empty</strong></div>";
-                 }
-                 if(empty($fullname))
-                 {
-                    $erorrinput[] = "<div class='alert alert-danger'>FullName Can Be <strong>Empty</strong></div>";
-                 }
-                 foreach($erorrinput as $erorr)
-                       echo $erorr;
-                  
-                if(empty($erorrinputr)){
-                    $stat = $con->prepare("UPDATE users SET Username=?,Passworduser=?,Email=?,FulName=? WHERE UserID=?");
-                    $stat->execute(array($username, $pass, $email, $fullname, $id));
-                    echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Update".'</div>';
-                 } 
+                   if(strlen($username)<3)
+                   {
+                      $erorrinput[] = "UserName Can Be Liss Than <strong>4 Charcter</strong>";
+                   }  
+                   if(empty($username))
+                   {
+                      $erorrinput[] = "UserName Can Be <strong>Empty</strong>";
+                   }
+                   if(empty($email))
+                   {
+                      $erorrinput[] = "Email Can Be <strong>Empty</strong>";
+                   }
+                   if(empty($fullname))
+                   {
+                      $erorrinput[] = "FullName Can Be <strong>Empty</strong>";
+                   }
+                   foreach($erorrinput as $erorr)
+                         echo "<div class='alert alert-danger'>".$erorr."</div>";
+                    
+                  if(empty($erorrinputr)){
+                      $stat = $con->prepare("UPDATE users SET Username=?,Passworduser=?,Email=?,FulName=? WHERE UserID=?");
+                      $stat->execute(array($username, $pass, $email, $fullname, $id));
+                      echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Update".'</div>';
+                   } 
                 
   }
   else{
@@ -104,8 +244,21 @@ if(isset($_SESSION['Username']))
   }
 
  echo '</div>';
-
 }
+elseif($do='Delete'){
+    $userid = isset($_GET['ID']) && is_numeric($_GET['ID']) ? intval($_GET['ID']) : 0;
+    $stat = $con->prepare("SELECT * FROM users WHERE UserID=? LIMIT 1");
+    $stat->execute(array($userid));
+    $count = $stat->rowCount();
+
+        if ($count > 0) {
+            $stst = $con->prepare("DELETE FROM users WHERE UserID = $userid");
+            // $stat->bindParam(':auserid',$userid);
+            $stst->execute();
+            echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Deleted".'</div>';
+        }
+}
+
 
     include $tpl."footer.php";
 }
