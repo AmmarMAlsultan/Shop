@@ -261,7 +261,7 @@ elseif($do='Delete'){?>
             echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Deleted".'</div>';
         }
         else{
-                echo "Member Not Found ";
+                echo "Member Not Found  ";
         }
             echo '</div>';
 }
