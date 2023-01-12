@@ -142,10 +142,9 @@ if(isset($_SESSION['Username']))
                         echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Iserted".'</div>';
                      } 
                     
-      }
-      else{
-            echo 'Erorr';
-      }
+      } else {
+            // header('location:erorr.php');
+         }
     
      echo '</div>';
     
