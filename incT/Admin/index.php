@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
     $shpassword = sha1($password);
 
 
-$stat = $con->prepare("SELECT UserID, Username, Passworduser FROM users WHERE Username=? AND Passworduser=? AND GroupID=1 LIMIT 1");
+$stat = $con->prepare("SELECT UserID, Username, Passworduser FROM user WHERE Username=? AND Passworduser=? AND GroupID=1 LIMIT 1");
 $stat->execute(array($username, $shpassword));
 $row=$stat->fetch();
 $count = $stat->rowCount();

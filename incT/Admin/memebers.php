@@ -9,7 +9,7 @@ if(isset($_SESSION['Username']))
     if($do=='Manage')
     {
 
-        $stat = $con->prepare("SELECT * FROM users WHERE GroupID != 1 ");
+        $stat = $con->prepare("SELECT * FROM user WHERE GroupID != 1 ");
         $stat->execute();
         $rows = $stat->fetchAll();
 
@@ -129,21 +129,30 @@ if(isset($_SESSION['Username']))
                       
                     if(empty($erorrinputr)){
 
-                        $stat = $con->prepare("INSERT INTO users(Username,Passworduser,Email,FulName)VALUE(:auser,:apass,:aemail,:afullname)");
-                        $stat->execute(
-                            array(
-                                'auser'      => $username,
-                                'apass'      => $hashpass,
-                                'aemail'     => $email,
-                                'afullname'  => $fullname
-                            )
-                        );
+                         $chack = checkitem("Username", "user", $username);
+                         if($chack==1)
+                         {
+                         echo 'Ali';
+                         }
+                         else{
+                            $stat = $con->prepare("INSERT INTO user(Username,Passworduser,Email,FulName)VALUE(:auser,:apass,:aemail,:afullname)");
+                            $stat->execute(
+                                array(
+                                    'auser'      => $username,
+                                    'apass'      => $hashpass,
+                                    'aemail'     => $email,
+                                    'afullname'  => $fullname
+                                )
+                            );
+    
+                            echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Iserted".'</div>';
+                         }
 
-                        echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Iserted".'</div>';
+                        
                      } 
                     
       } else {
-            // header('location:erorr.php');
+            redirecthome("Error");
          }
     
      echo '</div>';
@@ -153,7 +162,7 @@ if(isset($_SESSION['Username']))
 
     elseif($do=='Edit'){
         $userid = isset($_GET['ID']) && is_numeric($_GET['ID']) ? intval($_GET['ID']) : 0;
-        $stat = $con->prepare("SELECT * FROM users WHERE UserID=? LIMIT 1");
+        $stat = $con->prepare("SELECT * FROM user WHERE UserID=? LIMIT 1");
         $stat->execute(array($userid));
         $row=$stat->fetch();
         $count = $stat->rowCount();
@@ -232,7 +241,7 @@ if(isset($_SESSION['Username']))
                          echo "<div class='alert alert-danger'>".$erorr."</div>";
                     
                   if(empty($erorrinputr)){
-                      $stat = $con->prepare("UPDATE users SET Username=?,Passworduser=?,Email=?,FulName=? WHERE UserID=?");
+                      $stat = $con->prepare("UPDATE user SET Username=?,Passworduser=?,Email=?,FulName=? WHERE UserID=?");
                       $stat->execute(array($username, $pass, $email, $fullname, $id));
                       echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Update".'</div>';
                    } 
@@ -249,12 +258,12 @@ elseif($do='Delete'){?>
     <div class="container text-center">
     <?php
     $userid = isset($_GET['ID']) && is_numeric($_GET['ID']) ? intval($_GET['ID']) : 0;
-    $stat = $con->prepare("SELECT * FROM users WHERE UserID=? LIMIT 1");
+    $stat = $con->prepare("SELECT * FROM user WHERE UserID=? LIMIT 1");
     $stat->execute(array($userid));
     $count = $stat->rowCount();
 
         if ($count > 0) {
-            $stst = $con->prepare("DELETE FROM users WHERE UserID = $userid");
+            $stst = $con->prepare("DELETE FROM user WHERE UserID = $userid");
             // $stat->bindParam(':auserid',$userid);
             $stst->execute();
             echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Deleted".'</div>';
