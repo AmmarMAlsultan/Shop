@@ -34,7 +34,7 @@ if(isset($_SESSION['Username']))
                     echo '<td>'.$row['Username'].'</td>';
                     echo '<td>'.$row['Email'].'</td>';
                     echo '<td>'.$row['FulName'].'</td>';
-                    echo '<td></td>';
+                    echo '<td>'.$row['Add_Date'].'</td>';
                     echo '<td>
                     <a href="memebers.php?do=Edit&ID='.$row['UserID'].'"class="btn btn-success">Edit</a>
                     <a href="memebers.php?do=Delete&ID='.$row['UserID'].'" class="btn btn-danger confirm">Delete</a>
@@ -135,7 +135,7 @@ if(isset($_SESSION['Username']))
                          echo 'Ali';
                          }
                          else{
-                            $stat = $con->prepare("INSERT INTO user(Username,Passworduser,Email,FulName)VALUE(:auser,:apass,:aemail,:afullname)");
+                            $stat = $con->prepare("INSERT INTO user(Username,Passworduser,Email,FulName,Add_Date)VALUE(:auser,:apass,:aemail,:afullname,now())");
                             $stat->execute(
                                 array(
                                     'auser'      => $username,
@@ -241,16 +241,14 @@ if(isset($_SESSION['Username']))
                          echo "<div class='alert alert-danger'>".$erorr."</div>";
                     
                   if(empty($erorrinputr)){
-                      $stat = $con->prepare("UPDATE user SET Username=?,Passworduser=?,Email=?,FulName=? WHERE UserID=?");
+                      $stat = $con->prepare("UPDATE user SET Username=?,Passworduser=?,Email=?,FulName=?,Add_Date=now() WHERE UserID=?");
                       $stat->execute(array($username, $pass, $email, $fullname, $id));
                       echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Update".'</div>';
-                   } 
-                
+                   }
   }
   else{
         echo 'Erorr';
   }
-
  echo '</div>';
 }
 elseif($do='Delete'){?>
