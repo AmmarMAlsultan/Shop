@@ -56,6 +56,45 @@ h1{
     color: #fff;
 }
 /* End page memeber */
+/* Start Dashboard */
+.home-stats .stat{
+    background-color: rgb(78, 93, 95);
+    border: 1px solid #333;
+    padding: 20px;
+    font-size: 20px;
+    border-radius: 10px;
+}
+.home-stats .stat span{
+    display: block;
+    font-size: 50px;
+}
+.latest{
+    margin-top: 30px;
+}
+.stat .total_member{
+    background-color: #85C1E9;
+}
+.stat .pending_member{
+    background-color: #76D7C4;
+}
+.stat .total_item{
+    background-color: #F8C471 ;
+}
+.stat .total_comment{
+    background-color: #F5B7B1;
+}
+.stat a{
+    text-decoration: none;
+}
+.latest-btn{
+    margin-top: -6px;
+}
+.latest-btn a{
+    text-decoration: none;
+    color: #fff;
+}
 
+
+/* End Dashboard */
 
 

@@ -8,8 +8,13 @@ if(isset($_SESSION['Username']))
     $do = isset($_GET['do']) ? $_GET['do'] : 'Manage';
     if($do=='Manage')
     {
+        // $query = '';
+        // if(isset($_GET['page'])&& $_GET['page']=='pending');
+        // {
+        //     $guery = 'AND RegStatus=0';
+        // }
 
-        $stat = $con->prepare("SELECT * FROM user WHERE GroupID != 1 ");
+        $stat = $con->prepare("SELECT * FROM user WHERE GroupID != 1");
         $stat->execute();
         $rows = $stat->fetchAll();
 
@@ -36,9 +41,12 @@ if(isset($_SESSION['Username']))
                     echo '<td>'.$row['FulName'].'</td>';
                     echo '<td>'.$row['Add_Date'].'</td>';
                     echo '<td>
-                    <a href="memebers.php?do=Edit&ID='.$row['UserID'].'"class="btn btn-success">Edit</a>
-                    <a href="memebers.php?do=Delete&ID='.$row['UserID'].'" class="btn btn-danger confirm">Delete</a>
-                    </td>';
+                    <a href="memebers.php?do=Edit&ID=' . $row['UserID'] . '"class="btn btn-success">Edit</a>
+                    <a href="memebers.php?do=Delete&ID=' . $row['UserID'] . '" class="btn btn-danger confirm">Delete</a>';
+                        if($row['RegStatus']==0){
+                            echo '<a href="memebers.php?do=Activate&ID='.$row['UserID'].'" class="btn btn-info" style="margin-left:5px;">Activet</a>';
+                        }
+                    echo '</td>';
                     echo '</tr>';
                     }
                 ?>
@@ -135,7 +143,8 @@ if(isset($_SESSION['Username']))
                          echo 'Ali';
                          }
                          else{
-                            $stat = $con->prepare("INSERT INTO user(Username,Passworduser,Email,FulName,Add_Date)VALUE(:auser,:apass,:aemail,:afullname,now())");
+                            $stat = $con->prepare("INSERT INTO user(Username,Passworduser,Email,FulName,RegStatus,Add_Date)
+                            VALUE(:auser,:apass,:aemail,:afullname,1,now())");
                             $stat->execute(
                                 array(
                                     'auser'      => $username,
@@ -265,6 +274,26 @@ elseif($do='Delete'){?>
             // $stat->bindParam(':auserid',$userid);
             $stst->execute();
             echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Deleted".'</div>';
+        }
+        else{
+                echo "Member Not Found  ";
+        }
+            echo '</div>';
+}
+
+elseif($do=='Activate'){?>
+    <h1 class="text-center">Activate Memebers</h1>
+    <div class="container text-center">
+    <?php
+    $userid = isset($_GET['ID']) && is_numeric($_GET['ID']) ? intval($_GET['ID']) : 0;
+    $stat = $con->prepare("SELECT * FROM user WHERE UserID=? LIMIT 1");
+    $stat->execute(array($userid));
+    $count = $stat->rowCount();
+
+        if ($count > 0) {
+            $stst = $con->prepare("UPDATE user SET RegStatus=1 WHERE UserID =?");
+            $stst->execute(array($userid));
+            echo '<div class="alert alert-success text-center">'.$stat->rowCount()." ". "Record Activate".'</div>';
         }
         else{
                 echo "Member Not Found  ";

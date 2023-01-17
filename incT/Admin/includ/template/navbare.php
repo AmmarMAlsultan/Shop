@@ -7,7 +7,7 @@
                 <li class="fa fa-solid fa-user"></li>
                 <li class="fa fa-solid fa-user"></li>
             </button> -->
-            <a class="navbar-brand" href="#"><?php echo lang ('ADMIN') ?></a>
+            <a class="navbar-brand" href="dashboard.php"><?php echo lang('ADMIN');?></a>
         </div>
         <div class="collapse navbar-collapse" id="app-nav">
             <ul class="nav navbar-nav">
