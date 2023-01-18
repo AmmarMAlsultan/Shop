@@ -44,7 +44,14 @@ if(isset($_SESSION['Username']))
                             <?php
                             $arraylatest = gitlatest('*', 'user', 'UserID',$rownumber);
                             foreach($arraylatest as $user){
-                                echo '<div class="alert alert-info">'.$user['Username'].'<span class="latest-btn btn btn-success pull-right"><a href="memebers.php?do=Edit&ID=' . $user['UserID'] . '">Edit</a></span>'.'</div>';
+                                echo '<div class="alert alert-info">' . $user['Username'];
+                                echo'<span class="latest-btn btn btn-success pull-right">';
+                                echo'<a href="memebers.php?do=Edit&ID=' . $user['UserID'] . '">Edit</a>';
+                                echo '</span>';
+                                if($user['RegStatus']==0){
+                                    echo '<a href="memebers.php?do=Activate&ID='.$user['UserID'].'" class="latest-btn btn btn-info pull-right" style="margin-right:5px;">Activet</a>';
+                                }
+                                echo'</div>';
                             }
                             ?>
                         </div>

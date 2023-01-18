@@ -11,7 +11,7 @@
         </div>
         <div class="collapse navbar-collapse" id="app-nav">
             <ul class="nav navbar-nav">
-                <li><a href="#"><?php echo lang ('CATEGROISE') ?></a></li>
+                <li><a href="categroies.php"><?php echo lang ('CATEGROISE') ?></a></li>
                 <li><a href="#"><?php echo lang ('ITEM') ?></a></li>
                 <li><a href="memebers.php"><?php echo lang ('MEMBERS') ?></a></li>
                 <li><a href="#"><?php echo lang ('STATISTICS') ?></a></li>
